@@ -12,7 +12,7 @@
 - In case the script file lacks permissions, please run `chmod +x ./scripts/init.sh`.
 - The above script will spin-up a working postgres container, login as root user, create the relevant tables and populate them with mock data
 
-### Web-server Start-up
+### Server Startup
 - The source code is written in TS. to transpile the code into JS, please run the following command: 
 ```bash
 npm run build
@@ -40,4 +40,15 @@ curl \
 
 ### Entity Relationship Diagram
 - in this scope, there's a one-to-one relationship between accounts and account_scores, in the future, when multiple games are added, a new parameter for 'game_id' should be added to account_scores and there will be a one-to-many relationship between accounts & account_scores.
+
+
 ![text](assets/ERD.png)
+
+### Data Design Choices
+- Even though the assignment is rather simple, I've decided to mock a real-world scenario and follow data normalization practices.
+- As a result, I've created to seperate tables, one to hold information about accounts, and one to hold their respective scores.
+- This makes sure any data specifically about the account is decoupled from the logic regarding the scores, this also enables partitioning/replication which is needed for scalability and redundance in real-world applications
+- Each table has a unique ID as a primary key, I've decided not to go with integer IDs since they enable critical security concerns. the IDs of each entry consist of the entry's tag, followed by a random hash (e.g. account_h9g234v8)
+- I didn't have the time to add a caching layer (e.g. Redis), but potentially it would improve performance in systems experiences heavy-load. 
+- For example, if the request `GET /api/scores` is used often in the application to display the absolute top N scores, we can easily cache the response in Redis which will drop load from the database (since accessing the caching layer will usually be a cheaper/faster request than sending a request to the DB). This solution is viable but it does introduce complexity: if the top scores change often, we might not be able to determine when to invalidate the cache and refresh the top scores, and this is bad if the information is critical. caching-validation is a known pain-point. 
+- Another use-case for caching is to cache individual user ranks.
