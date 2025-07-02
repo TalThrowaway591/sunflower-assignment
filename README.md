@@ -1,7 +1,5 @@
 # Sunflower Assignment
 
-### About 
-
 ### Postgres Setup
 - I've created scripts to easily spin-up the project dependencies (at the moment only a postgres container)
 - To setup the postgres container, and seed mock data, please run the following script: `./scripts/init.sh`.
@@ -59,3 +57,13 @@ curl \
 
 ### Misc. Comments
 - This is by no means a production-ready project, there are many points of improvement which I'd love to dicuss.
+
+### System Architechure proposal
+- Different services will containerized and run in pods on any cloud provider (e.g. AWS)
+- In the case of AWS, we can either rent multiple bare-bones VPS's (EC2), or use their built-in product for docker containers (ECS).
+- for container orchistration, we can use k8s. one use-case is to automatically spin-up and down containers of the leaderboard service depending on the traffic. (a good option for a simple, built-in solution is EKS)
+- the client doesn't directly ping the services, instead we add another machine in between which will act as a reverse proxy, aggregating and transforming the requests, setting rate limitting, etc. A good option is NGINX.
+- this layer can also function as an API gateway(?), holding a the service registry to allow services to talk to eachother.
+- Another layer which I haven't drawn is the caching layer, I've specified some points on caching in the above paragraphs.
+
+![text](assets/arc.png)
