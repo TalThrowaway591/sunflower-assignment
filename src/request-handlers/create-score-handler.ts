@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { AppResponse } from "../types";
-
-const insertScoreQuery = (accountId: string, score: number) => `
-    INSERT INTO account_scores (account_id, value)
-    VALUES ('${accountId}', ${score});`
+import { nanoid } from "nanoid";
+const insertScoreQuery = (id: string, accountId: string, score: number) => `
+    INSERT INTO account_scores (id, account_id, value)
+    VALUES ('${id}', '${accountId}', ${score});`
 
 const insertAccountQuery = (accountId: string) => `
     INSERT INTO accounts (id, username)
@@ -11,6 +11,10 @@ const insertAccountQuery = (accountId: string) => `
 
 
 const findAccountQuery = (accountId: string) => `SELECT * from accounts WHERE id='${accountId}'`
+
+const createScoreId = (): string => {
+    return `score_${nanoid(7)}`
+}
 
 // for debugging purposes
 const createRandomUsername = (): string => {
@@ -47,7 +51,9 @@ const createScoreHandler = async (req: Request, res: Response<AppResponse>) => {
 
     // insert new score
     try {
-        await req.appProfile.postgresQuery(insertScoreQuery(accountId, score));
+        const newScoreId = createScoreId();
+
+        await req.appProfile.postgresQuery(insertScoreQuery(newScoreId, accountId, score));
 
         res.status(200).send({ success: true, body: null })
 

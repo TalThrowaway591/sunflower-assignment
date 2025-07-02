@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import { AppResponse } from "../types";
+import { Request, Response } from "express";
 
 const updateScoreQuery = (accountId: string, score: number) => `
     UPDATE account_scores
@@ -33,6 +33,8 @@ const updateScoreHandler = async (req: Request, res: Response<AppResponse>) => {
     // after validating account existance
     try {
         await req.appProfile.postgresQuery(updateScoreQuery(accountId as string, score));
+
+        res.send({ success: true, body: null })
     } catch (e) {
         console.log(e)
 

@@ -9,6 +9,7 @@
 ### Server Startup
 - The source code is written in TS. to transpile the code into JS, please run the following command: 
 ```bash
+npm i
 npm run build
 ```
 - Another option with hot-reload is also available: `npm run build:watch`
@@ -50,14 +51,6 @@ curl \
 - The implementation of the queries is lacking because of time-constraints, I've used the `pg' node library to connect and query the database. in an ideal situation, I would use an generalized ORM for query management because of security concerns (for example the ORM handles input sanitization and reduces chances of successful attacks like SQL injections).
 - On top of the ORM I'd probably seperate between the database handling layer and the web driver itself, ideally they should be decoupled. I'd write a seperate interface for the DB that the web-server can interact with. the interface should contain a handful of functions that are visible, such as `listScores(n), fetchScore(accountId)`, etc. and it handles all DB implementation details behind the scenes (such as efficient querying, and conversions between SQL rows and business logic entities).
 
-### Implementation details
-- I've used Postgres for the database.
-- I've used ExpressJS as the web-server.
-- The project is written in TypeScript.
-
-### Misc. Comments
-- This is by no means a production-ready project, there are many points of improvement which I'd love to dicuss.
-
 ### System Architechure proposal
 - Different services will containerized and run in pods on any cloud provider (e.g. AWS)
 - In the case of AWS, we can either rent multiple bare-bones VPS's (EC2), or use their built-in product for docker containers (ECS).
@@ -66,4 +59,16 @@ curl \
 - this layer can also function as an API gateway(?), holding a the service registry to allow services to talk to eachother.
 - Another layer which I haven't drawn is the caching layer, I've specified some points on caching in the above paragraphs.
 
+### Implementation details
+- I've used Postgres for the database.
+- I've used ExpressJS as the web-server.
+- The project is written in TypeScript.
+
+### Misc. Comments
+- This is by no means a production-ready project, there are many points of improvement which I'd love to dicuss.
+- Another thing I didn't have the time to work on is error management (errors regarding business logic, bad requests, edge cases such as broken queries or handling DB connections).
+- I would have also liked to decouple between the business logic, the different handlers and the web-server itself.
+- To make the application easily testable for this assignment, when creating a new score, the system will also create a random account to attach to that score.
+
+- Written by Tal Arbetov.
 ![text](assets/arc.png)

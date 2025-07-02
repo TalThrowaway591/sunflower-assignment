@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import { AppResponse } from "../types";
+import { Request, Response } from "express";
 
 const query = (rowAmount: number) => `
     SELECT a.id, a.username, s.value
