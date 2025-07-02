@@ -1,8 +1,3 @@
-docker run --name sunflower-pg-container -e POSTGRES_PASSWORD=password --network api-net -d -p 5432:5432 postgres
-
-docker exec -it sunflower-pg-container bash
-
-psql -U postgres
 
 CREATE DATABASE sunflower_db;
 
