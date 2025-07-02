@@ -1,0 +1,27 @@
+{
+    "name": "sunflower-assignment",
+    "version": "0.0.1",
+    "description": "Sunflower Home Assignment",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc --outDir build",
+        "build:watch": "tsc --outDir build --watch",
+        "start": "node build/index.js",
+        "start:watch": "nodemon build/index.js"
+    },
+    "author": "Tal Arbetov",
+    "license": "ISC",
+    "dependencies": {
+        "config": "^4.0.0",
+        "dotenv": "^17.0.1",
+        "express": "^5.1.0",
+        "pg": "^8.16.3"
+    },
+    "devDependencies": {
+        "@types/config": "^3.3.5",
+        "@types/express": "^5.0.3",
+        "@types/node": "^24.0.10",
+        "@types/pg": "^8.15.4",
+        "nodemon": "^3.1.10"
+    }
+}
