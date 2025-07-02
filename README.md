@@ -59,6 +59,8 @@ curl \
 - this layer can also function as an API gateway(?), holding a the service registry to allow services to talk to eachother.
 - Another layer which I haven't drawn is the caching layer, I've specified some points on caching in the above paragraphs.
 
+![text](assets/arc.png)
+
 ### Implementation details
 - I've used Postgres for the database.
 - I've used ExpressJS as the web-server.
@@ -71,4 +73,3 @@ curl \
 - To make the application easily testable for this assignment, when creating a new score, the system will also create a random account to attach to that score.
 
 - Written by Tal Arbetov.
-![text](assets/arc.png)
